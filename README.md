@@ -16,7 +16,7 @@ Example of the comment page:
 
 ## Technologies
 * MongoDB, Express, NodeJS.
-* npm: axios, cheerio, handlebars, body-parser, mongojs.
+* npm: axios, cheerio, handlebars, body-parser, morgan, mongojs.
 * jQuery, Bootstrap.
 
 ## Deployed Link
@@ -26,3 +26,4 @@ https://shrouded-spire-95120.herokuapp.com/articles
 * Plenty of styling adjustments that could me made if allowed more time
 * I'd like to incorporate a 'Favorites' function for users to save articles
 * Would like to grab images as well
+* Adding tests
