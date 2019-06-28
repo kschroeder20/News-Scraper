@@ -6,13 +6,13 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 
 
-var PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Require all models
-var db = require("./models");
+const database = require("./models");
 
 // Initialize Express
-var app = express();
+const app = express();
 
 // Configure middleware
 
@@ -36,7 +36,7 @@ const MONGODB_URI =
     process.env.MONGODB_URI || "mongodb://localhost/scraper";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
     console.log("Connected to Mongoose!");
