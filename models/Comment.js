@@ -1,11 +1,11 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 // Save a reference to the Schema constructor
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new CommentSchema object
 // This is similar to a Sequelize model
-var CommentSchema = new Schema({
+const CommentSchema = new Schema({
     name: {
         type: String
     },
@@ -16,9 +16,7 @@ var CommentSchema = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Comment = mongoose.model("Comment", CommentSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 
 // Export the Comment model
 module.exports = Comment;
-
-//ObjectId("5d14abde62e8703ef58b1cf9")

@@ -48,14 +48,15 @@ textarea {
 
 .headline,
 .headline a {
-  color: #483D8B;
+  color: #696969;
+  font-weight: bold;
   font-size: 25px;
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
 }
 
 .summary {
-  color: #696969;
+  color: #808080;
   font-size: 17px;
   font-style: italic;
 }

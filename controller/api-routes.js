@@ -13,18 +13,19 @@ router.get('/', function (req, res) {
     res.redirect('/articles');
 });
 
+//Scrape USA Today's sports section, and log it to the db
 router.get('/scrape', (req, res) => {
     axios.get('https://www.usatoday.com/sports/')
         .then(result => {
             const $ = cheerio.load(result.data);
-            $('ul.headline-page li[itemtype="https://schema.org/NewsArticle"]').each(function (i, element) {
+            $('ul.headline-page li[itemtype="https://schema.org/NewsArticle"]').each((i, element) => {
 
-                let headline = $(element).find('p[itemprop="headline"]').text();
-                let link = `https://www.usatoday.com${$(element).find('a[itemprop="url"]').attr('href')}`;
-                let summary = $(element).find('span.hgpm-back-listview-text').attr('data-fulltext');
+                const headline = $(element).find('p[itemprop="headline"]').text();
+                const link = `https://www.usatoday.com${$(element).find('a[itemprop="url"]').attr('href')}`;
+                const summary = $(element).find('span.hgpm-back-listview-text').attr('data-fulltext');
                 //let image = $(element).find('img[itemprop="thumbnailUrl"]').attr('src');
 
-                let article = {
+                const article = {
                     headline: headline,
                     link: link,
                     summary: summary,
@@ -50,75 +51,66 @@ router.get('/scrape', (req, res) => {
 
 // Route for getting all Articles from the db
 router.get("/articles", function (req, res) {
-    Article.find({}).sort({ _id: -1 }).then(function (result) {
+    Article.find({}).sort({ _id: -1 }).then(result => {
         // If all Articles are successfully found, send them back to the client
-        var data = { article: result };
+        const data = { article: result };
         res.render('index', data);
     })
-        .catch(function (err) {
+        .catch(err => {
             // If an error occurs, send the error back to the client
             res.json(err);
         });
 });
 
-// Route for grabbing a specific Article by id, populate it with it's note
-router.get("/articles/:id", function (req, res) {
-    // TODO
-    // ====
-    // Finish the route so it finds one article using the req.params.id,
-    // and run the populate method with "note",
-    // then responds with the article with the note included
+// Route for grabbing a specific Article by id, populate it with it's comments
+router.get("/articles/:id", (req, res) => {
     Article.find({ _id: req.params.id })
         .populate("comment")
-        .then(function (result) {
-            let data = {article: result}
+        .then(result => {
+            const data = {article: result}
             res.render('article', data);
-        }).catch(function (err) {
+        }).catch( err => {
             // If an error occurs, send it back to the client
             res.json(err);
         });
 });
 
+//Save comments to db when someone comments on the specific article
 router.post('/comment/:id', function (req, res) {
-    let user = req.body.name;
-    let content = req.body.comment;
-    let articleId = req.params.id;
+    const user = req.body.name;
+    const content = req.body.comment;
+    const articleId = req.params.id;
 
     console.log(user);
     console.log(req.body);
 
-    let comment = {
+    const comment = {
         name: user,
         body: content
-    }
+    };
 
-    let newComment = new Comment(comment);
+    const newComment = new Comment(comment);
 
-    newComment.save(function (err, doc) {
+    newComment.save((err, doc) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(doc._id);
-            console.log(articleId);
-
             Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comment: doc._id } }, { new: true })
-                .then(function (dbUser) {
-                // If the User was updated successfully, send it back to the client
+                .then(dbUser => {
+                    // If the User was updated successfully, send it back to the client
                     res.redirect(`/articles/${req.params.id}`);
-            })
-                .catch(function (err) {
+                })
+                .catch(err => {
                     // If an error occurs, send it back to the client
                     res.json(err);
                 });
-
         }
-    })
-
-
+    });
 });
 
-router.get('/clearAll', function (req, res) {
-    Article.remove({}, function (err, doc) {
+//Remove all articles from db
+router.get('/clearAll', (req, res) => {
+    Article.remove({}, (err, doc) => {
         if (err) {
             console.log(err);
         } else
