@@ -7,11 +7,11 @@ A full stack app that scrapes articles from USA Today's sports section. Users ar
 
 ### Screenshots
 Home page shows the latest sports news with the options to empty the database or to refresh the scrape. On each article you can read, which links to the article on a new tab in the browser, or comment, which brings the user to a page made for discussion about the article.
-<br>
+<br><br>
 <img src="./public/img/Article-page-screenshot.png" width="400"/>  
-<br>
+<br><br>
 Example of the comment page:
-<br>
+<br><br>
 <img src="./public/img/Comment-page-screenshot.png" width="400"/>
 
 ## Technologies
