@@ -32,8 +32,9 @@ app.set('view engine', 'handlebars');
 
 //connecting to MongoDB
 //mongoose.connect("mongodb://localhost/scraped_news");
-const MONGODB_URI =
-    process.env.MONGODB_URI || "mongodb://localhost/scraper";
+// If deployed, use the deployed database. Otherwise use the local scraper database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scraper";
+
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 const db = mongoose.connection;
