@@ -69,7 +69,7 @@ router.get("/articles/:id", function (req, res) {
     // and run the populate method with "note",
     // then responds with the article with the note included
     Article.find({ _id: req.params.id })
-        .populate("Comment")
+        .populate("comment")
         .then(function (result) {
             let data = {article: result}
             res.render('article', data);
@@ -77,15 +77,6 @@ router.get("/articles/:id", function (req, res) {
             // If an error occurs, send it back to the client
             res.json(err);
         });
-});
-
-// Route for saving/updating an Article's associated Note
-router.post("/articles/:id", function (req, res) {
-    // TODO
-    // ====
-    // save the new note that gets posted to the Notes collection
-    // then find an article from the req.params.id
-    // and update it's "note" property with the _id of the new note
 });
 
 router.post('/comment/:id', function (req, res) {
@@ -110,7 +101,7 @@ router.post('/comment/:id', function (req, res) {
             console.log(doc._id);
             console.log(articleId);
 
-            Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: doc._id } }, { new: true })
+            Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comment: doc._id } }, { new: true })
                 .then(function (dbUser) {
                 // If the User was updated successfully, send it back to the client
                     res.redirect(`/articles/${req.params.id}`);

@@ -3,6 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cheerio = require('cheerio');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 
 
 var PORT = 3000;
@@ -21,7 +22,7 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 // HANDLEBARS
 // Set Handlebars as the default templating engine.
